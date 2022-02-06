@@ -2,9 +2,9 @@ import random
 import numpy as np
 
 # Размеры поля
-size = 4
+size = 10
 # Пройгрышная комбинация
-combo = 3
+combo = 5
 
 # Матрица с которой будем работать
 field = [[' ' for i in range(size)] for j in range(size)]

@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import string
 
 # Размеры поля
 size = 10
@@ -8,8 +9,7 @@ combo = 5
 
 # Матрица с которой будем работать
 field = [[' ' for i in range(size)] for j in range(size)]
-#field = np.ones((size, size))
-""""""
+
 def arr_to_list(arr):
     """
     Функция arr_to_list возвращает список с игровым полем
@@ -65,7 +65,6 @@ def opponents_move(field):
     row, col = random.choice(range(4)), random.choice(range(4))
     if field[row][col] != ' ':
         opponents_move(field)
-    print(row, col)
     return (row, col)
 
 user_input = 'b3'
@@ -76,27 +75,22 @@ def trans_coord(user_input):
     делает ход
     """
     if len(user_input) != 2:
-        game(messages[1])
+        print("Не корректный ввод координаты хода. Введите два символа.")
+        game()
     else:
-        if user_input[0].isalpha() and user_input[1].isdigit():
+        if user_input[0].isalpha() and user_input[1].isdigit() and user_input[0] in list(string.ascii_lowercase[:size]):
             coord1 = int(ord(user_input[0].lower())) - 97
             coord2 = int(user_input[1]) - 1
             if field[coord2][coord1] != ' ':
-                game(messages[2])
+                print("Клетка уже занята, повторите ход в пустую клетку.")
+                game()
             return (coord2, coord1)
         else:
-            game(messages[1])
-
-messages = [
-    "Добро пожаловать в игру обратные крестики нолики. Проигрывает тот игрок, "
-    "у которого в один ряд по горизонтили, вертикали или диагонали выстраиваются ходы.", 
-    "Не корректный ввод. Повторите попытку.",
-    "Ваш ход."
-    "Эта клетка занята. Выберете другую."
-]
+            print("Не корректный ввод координаты хода. Сначала буквы, потом цифры.")
+            game()
 
 
-def game(messages):
+def game():
     '''
     Функция game возвращает игровое поле с ходами противников
     '''
@@ -152,7 +146,9 @@ def check_comb(combo, field, mark):
     check_hor(field)
     field = np.transpose(field)
     # Проверяем диагонали матрицы
-    check_hor(diags_field(field, combo))   
-print(messages[0])
-game(messages[0])
+    check_hor(diags_field(field, combo))  
 
+print("Добро пожаловать в игру обратные крестики нолики. Проигрывает тот "
+      "игрок, у которого в один ряд по горизонтали, вертикали или диагонали "
+      "выстраиваются ходы.")
+game()
